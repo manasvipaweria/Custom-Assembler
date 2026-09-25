@@ -2,14 +2,22 @@ name: Code Analysis
 
 on:
   push:
-    branches: [ "**" ]
   pull_request:
-    branches: [ "**" ]
   workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'Analysis Run ID'
+        required: false
+        type: string
 
 jobs:
-  analyze:
+  analysis:
     uses: manasvipaweria/repo-analysis/.github/workflows/reusable-analysis.yml@main
+    with:
+      enable_codex: true
+      enable_design_ai: true
+      enable_deslint: true
     secrets:
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
